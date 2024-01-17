@@ -63,7 +63,7 @@ differences:
     not the full URI e.g. <code>alpine</code> not
     <code>012345678910.dkr.ecr.us-east-1.amazonaws.com/alpine</code>. ECR usage
     is NOT automatically detected. You must set the <code>aws_region</code> to
-    tell the resource to automatically use ECR.</em>
+    tell the resource to automatically use ECR. (See the [ECR example](#use-with-aws-ecr) below.)</em>
     </td>
   </tr>
   <tr>
@@ -404,6 +404,30 @@ this reason, the resource will only consider prerelease data starting with
 `alpha`, `beta`, or `rc` as a proper prerelease, treating anything else as
 a variant.
 
+#### Use with AWS ECR
+
+```yaml
+# won't work
+resources:
+- name: ecr-image
+  type: registry-image
+  source:
+    repository: 123456789.dkr.ecr.us-east-1.amazonaws.com/ecr-repository-name
+    aws_access_key_id: ((aws_access_key))
+    aws_secret_access_key: ((aws_secret_key))
+```
+
+```yaml
+# correct format
+resources:
+- name: ecr-image
+  type: registry-image
+  source:
+    repository: ecr-repository-name
+    aws_access_key_id: ((aws_access_key))
+    aws_secret_access_key: ((aws_secret_key))
+    aws_region: us-east-1
+```
 
 ### `get` Step (`in` script): fetch an image
 
